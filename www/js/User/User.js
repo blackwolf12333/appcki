@@ -11,18 +11,34 @@ angular.module('appcki.user',[])
             e.css({marginTop: h});
         }
     })
+    .directive("logo", function(){
+        var directive = {};
+        directive.restrict = "E";
+        directive.template = "<div class=\"logo\">";
+        // directive.template += "<img id='logo-top-part' ng-class=\"{'logo-animating-topturn': animating}\" src='../../img/top-01.svg' alt='CKI logo top'/>";
+        // directive.template += "<img src='../../img/bottom-01-transparant.svg' alt='CKI logo bottom'/>";
+        directive.template += "<img id='logo-top-part' ng-class=\"{'logo-animating-topturn': animating}\" src='img/top-01.svg' alt='CKI logo top'/>";
+        directive.template += "<img src='img/bottom-01-transparant.svg' alt='CKI logo bottom'/>";
+        directive.template += "</div>";
+        directive.link = function(s, e, a) {
+            var h = Math.round(.01 * window.innerHeight * a.h) + "px";
+            e.css({height: h, width: h, 'display': 'block'});
+            e.addClass('logo-container');
+            // e.addClass('logo-animating-topturn');
+        }
+        return directive;
+    })
 	.controller("loginPageController", ['$scope', '$http', '$location', '$ionicPopup','UserService',
         function($scope, $http, $location, $ionicPopup, UserService){	
 
+        $scope.animating = false;
         $scope.credentials = {};
 
-        var animation = 'logo-animating-topturn';
+        var ANIMATION_CLASS = 'logo-animating-topturn';
 
 		$scope.login = function(){           
             // Make logo spin
-            var el = angular.element(document.querySelector('.logo-login'));
-            el.addClass(animation);
-
+            $scope.animating = true;
             UserService.signin(
               {
                   username: $scope.credentials.username,
@@ -61,6 +77,12 @@ angular.module('appcki.user',[])
                     template: 'Onbekende fout. Response code %s'.sprintf(data.status)
                   }); 
                 }
+              }
             );
 		};
+
+        $scope.animate = function(){
+            $scope.animating = !$scope.animating;
+            console.log($scope.animating);
+        }
 	}]);

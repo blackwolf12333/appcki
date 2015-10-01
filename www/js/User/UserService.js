@@ -80,11 +80,11 @@ angular.module('appcki.user')
                         method: "GET",
                         params: data
                      }).then(
-                        function(data, status, headers, config){
-                            var token = headers("X-AUTH-TOKEN");
+                        function(response){
+                            var token = response.headers("X-AUTH-TOKEN");
                             console.log("token = ["+token+"]");
                             $localStorage.token = token;
-                            success(data);
+                            success(response.data);
                         },
                         error
                      )

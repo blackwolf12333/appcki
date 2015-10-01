@@ -75,31 +75,25 @@ angular.module('appcki.user')
             firstname : getUserFirstName,
             lastname : getUserLastName,
             signin: function(data, success, error) {
-                console.log(data);
-
-               // console.log(error);
-                
                 $http({
                         url: apiUrl + 'login',
                         method: "GET",
                         params: data
-                     })
-                    .success(function(data, status, headers, config){
-                        var token = headers("X-AUTH-TOKEN");
-                        console.log("token = ["+token+"]");
-                        $localStorage.token = token;
-                        success(data);
-                    })
-                    .error(error);
+                     }).then(
+                        function(response){
+                            var token = response.headers("X-AUTH-TOKEN");
+                            console.log("token = ["+token+"]");
+                            $localStorage.token = token;
+                            success(response.data);
+                        },
+                        error
+                     )
             },
             me: function(success, error) {
-                $http.get(apiUrl + '/user/current')
-                .success(function(data){
-                    success(data);
-                })
-                .error(function(data){
-                    error(data);
-                });
+                $http.get(apiUrl + '/user/current').then(
+                success,
+                error
+                );
             },
             logout: function(success) {
                 changeUser({});

@@ -50,23 +50,23 @@ angular.module('appcki.user',[])
               },
               function(data){
                 $scope.animating = false;
-                if(data.status == 401)
+                if(data.status === 401)
                 {
                   var alertPopup = $ionicPopup.alert({
                     title: 'Inloggen mislukt',
                     template: 'De gegevens kwamen niet overeen (response code 401)'
                   }); 
-                } else if (data.status = 403) {
+                } else if (data.status === 403) {
                   var alertPopup = $ionicPopup.alert({
                     title: 'Inloggen mislukt',
                     template: 'De gegevens kwamen niet overeen. (Response code 403)'
                   }); 
-                } else if (data.status = 500) {
+                } else if (data.status === 500) {
                   var alertPopup = $ionicPopup.alert({
                     title: 'Inloggen mislukt',
                     template: 'De server kon niet worden gevonden'
                   }); 
-                } else if (data.status == 0) {
+                } else if (data.status === 0) {
                   var alertPopup = $ionicPopup.alert({
                     title: 'Inloggen mislukt',
                     template: 'We doen ons best, maar dit is echt apeshit. Heb je internet? Anders ligt het aan ons. Sorry. Response code 0'
